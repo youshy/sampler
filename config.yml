@@ -1,0 +1,34 @@
+sparklines:
+  - title: CPU usage
+    rate-ms: 200
+    scale: 0
+    sample: ps -A -o %cpu | awk '{s+=$1} END {print s}'
+  - title: Free memory pages
+    rate-ms: 200
+    scale: 0
+    sample: memory_pressure | grep 'Pages free' | awk '{print $3}'
+gauges:
+  - title: Minute progress
+    rate-ms: 500        # sampling rate, default = 1000
+    scale: 2            # number of digits after sample decimal point, default = 1
+    percent-only: false # toggle display of the current value, default = false
+    color: 178          # 8-bit color number, default one is chosen from a pre-defined palette
+    cur:
+      sample: date +%S  # sample script for current value
+    max:
+      sample: echo 60   # sample script for max value
+    min:
+      sample: echo 0    # sample script for min value
+  - title: Year progress
+    cur:
+      sample: date +%j
+    max:
+      sample: echo 365
+    min:
+      sample: echo 0
+textboxes:
+  - title: Local weather
+    rate-ms: 10000      # sampling rate, default = 1000
+    sample: curl wttr.in?0ATQF
+    border: false       # border around the item, default = true
+    color: 178          # 8-bit color number, default is white
